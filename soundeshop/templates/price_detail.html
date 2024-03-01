@@ -1,0 +1,29 @@
+{% load history_tags %}
+{% load currency_filters %}
+{% load reviews_tags %}
+{% load product_tags %}
+{% load display_tags %}
+{% load i18n %}
+{% load purchase_info_tags %}
+
+
+{% purchase_info_for_product request product as session %}
+{% if session.price.exists %}
+        <h4 class="product-price">{{ session.price.excl_tax|currency:session.price.currency }}</h4>
+
+    <!-- <tr>
+        <th>{% trans "Price (excl. tax)" %}</th><td>{{ session.price.excl_tax|currency:session.price.currency }}</td>
+    </tr>
+    {% if session.price.is_tax_known %}
+        <tr>
+            <th>{% trans "Price (incl. tax)" %}</th><td>{{ session.price.incl_tax|currency:session.price.currency }}</td>
+        </tr>
+        <tr>
+            <th>{% trans "Tax" %}</th><td>{{ session.price.tax|currency:session.price.currency }}</td>
+        </tr>
+    {% endif %}
+    <tr>
+        <th>{% trans "Availability" %}</th>
+        <td>{{ session.availability.message }}</td>
+    </tr> -->
+{% endif %}

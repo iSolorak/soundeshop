@@ -4,6 +4,9 @@ from django.utils.module_loading import import_string
 from django.views.generic.list import MultipleObjectMixin
 
 from oscar.core.loading import get_class, get_classes, get_model
+from django.db.models import Q
+
+
 
 BrowseCategoryForm = get_class("search.forms", "BrowseCategoryForm")
 SearchHandler, SearchResultsPaginationMixin = get_classes(
@@ -36,7 +39,7 @@ class SimpleProductSearchHandler(CoreSimpleProductSearchHandler):
         qs = Product.objects.browsable().base_queryset()
         if self.categories:
             qs = qs.filter(categories__in=self.categories).distinct()
-        print('beef')
+        print(self.request_data)
         return qs
 
     def get_search_context_data(self, context_object_name):
@@ -69,8 +72,12 @@ class SimpleProductFilteredHandler(CoreSimpleProductSearchHandler):
 
     def get_queryset(self):
         qs = Product.objects.browsable().base_queryset()
-        print(self.request_data)
-        qs = qs.filter(categories__name=self.request_data.get('category')).distinct()
+        filter_list = self.request_data.getlist('category')
+        product_classfilter = self.request_data.getlist('product_class')
+        if len(filter_list)>0:
+            qs = qs.filter(categories__name__in=filter_list).distinct()
+        if len(product_classfilter)>0:
+            qs = qs.filter(product_class__name__in=product_classfilter)
         return qs
 
     def get_search_context_data(self, context_object_name):

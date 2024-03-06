@@ -81,6 +81,7 @@ INSTALLED_APPS = [
     'sorl.thumbnail',   # Default thumbnail backend, can be replaced
     'django_tables2',
     'home',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

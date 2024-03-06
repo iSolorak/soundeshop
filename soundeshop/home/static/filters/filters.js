@@ -32,33 +32,29 @@ elementsArray.forEach(function(elem) {
         // This function does stuff
         var checkedBoxes = document.querySelectorAll('input[type=checkbox]:checked');
         var form = document.createElement("form");
-        form.method = "GET";
-        form.action = "/catalogue/filtered_view/";   
-
+  
+        url =  '/catalogue/filtered_view/?'
+        
         checkedBoxes.forEach(function(addelem){
             console.log(addelem);
-            var element = document.createElement("input");
-            element.value=addelem.value;
-            element.name=addelem.value;
-            form.appendChild(element);
-
+            url += addelem.name +'='+addelem.value+'&'
         })
-        form.submit();
         // document.body.appendChild(form);
-
+        console.log(url);
         // form.preventDefault;
         // console.log(checkedBoxes)
         // console.log(elem.value);
         // var cookie = getCookie('csrftoken').toString()
         // fetch('/catalogue/filtered_view/?' + new URLSearchParams({
         // category: elem.value,}))
-        // .then((response) => response.json())
-        // .then((json) => {
-        //     var row_products = document.querySelectorAll(".row");
-        //     row_products[3].innerHTML = json.panagia;
-        //     // console.log(row_products[3]);
-        //     // console.log(json)
-        // });
+        fetch(url)
+        .then((response) => response.json())
+        .then((json) => {
+            var row_products = document.querySelectorAll(".row");
+            row_products[3].innerHTML = json.inner_HTML;
+            // console.log(row_products[3]);
+            // console.log(json)
+        });
 
         // fetch("/catalogue/filtered_view/"+ new URLSearchParams({
         //     foo: 'value',
@@ -90,4 +86,13 @@ elementsArray.forEach(function(elem) {
     });
 });
 
-
+btn = document.getElementById('filter_button')
+btn.addEventListener("click", function(e){
+    url =  '/catalogue/filtered_view/?'
+        
+    checkedBoxes.forEach(function(addelem){
+        console.log(addelem);
+        url += addelem.name +'='+addelem.value+'&'
+    })
+    // When button pressed also add the inputs of the price
+});

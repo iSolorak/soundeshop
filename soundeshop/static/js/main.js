@@ -108,7 +108,6 @@
 		$input = $this.find('input[type="number"]'),
 		up = $this.find('.qty-up'),
 		down = $this.find('.qty-down');
-
 		down.on('click', function () {
 			var value = parseInt($input.val()) - 1;
 			value = value < 1 ? 1 : value;

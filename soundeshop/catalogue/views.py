@@ -86,7 +86,7 @@ class FilterView(CoreCatalogueView):
         # print(dir(response.render()))
         # print(response.render().rendered_content)
         rd_content = response.render().rendered_content
-        return JsonResponse({'panagia':rd_content,},safe=False)
+        return JsonResponse({'inner_HTML':rd_content,},safe=False)
 
 
     def get_search_handler(self, *args, **kwargs):

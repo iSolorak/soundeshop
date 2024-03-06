@@ -70,6 +70,8 @@
 									</a>
 									<div class="cart-dropdown">
 										<div class="cart-list">
+											{% comment %}
+											{% if basket %}
 											{% for line in basket.lines.all %}
 											<div class="product-widget">
 												<div class="product-img">
@@ -82,6 +84,8 @@
 												<button class="delete"><i class="fa fa-close"></i></button>
 											</div>
 											{% endfor %}
+											{% endif %}
+											{% endcomment %}
 										</div>
 										<div class="cart-summary">
 											<small>{{basket.num_lines}} Item(s) selected</small>

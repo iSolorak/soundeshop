@@ -5,7 +5,7 @@ from django.views.generic.list import MultipleObjectMixin
 
 from oscar.core.loading import get_class, get_classes, get_model
 from django.db.models import Q
-
+from decimal import Decimal as D
 
 
 BrowseCategoryForm = get_class("search.forms", "BrowseCategoryForm")
@@ -74,10 +74,15 @@ class SimpleProductFilteredHandler(CoreSimpleProductSearchHandler):
         qs = Product.objects.browsable().base_queryset()
         filter_list = self.request_data.getlist('category')
         product_classfilter = self.request_data.getlist('product_class')
+        price_min = self.request_data.get('min_price')
+        price_max = self.request_data.get('max_price')
         if len(filter_list)>0:
             qs = qs.filter(categories__name__in=filter_list).distinct()
         if len(product_classfilter)>0:
             qs = qs.filter(product_class__name__in=product_classfilter)
+        if len(price_min)>0:
+            q = Q(stockrecords__price__range=(float(price_min),float(price_max)))
+            qs = qs.filter(q)
         return qs
 
     def get_search_context_data(self, context_object_name):

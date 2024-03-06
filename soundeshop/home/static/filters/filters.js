@@ -47,6 +47,11 @@ elementsArray.forEach(function(elem) {
         // var cookie = getCookie('csrftoken').toString()
         // fetch('/catalogue/filtered_view/?' + new URLSearchParams({
         // category: elem.value,}))
+        var input_min = document.getElementById('price-min');
+        var input_max = document.getElementById('price-max');
+        // console.log(url);
+        url += 'min_price' +'='+input_min.value+'&'
+        url += 'max_price' +'='+input_max.value+'&'
         fetch(url)
         .then((response) => response.json())
         .then((json) => {
@@ -85,14 +90,26 @@ elementsArray.forEach(function(elem) {
 
     });
 });
-
 btn = document.getElementById('filter_button')
 btn.addEventListener("click", function(e){
     url =  '/catalogue/filtered_view/?'
-        
+    
+    var checkedBoxes = document.querySelectorAll('input[type=checkbox]:checked');
     checkedBoxes.forEach(function(addelem){
-        console.log(addelem);
         url += addelem.name +'='+addelem.value+'&'
     })
     // When button pressed also add the inputs of the price
+    var input_min = document.getElementById('price-min');
+    var input_max = document.getElementById('price-max');
+    // console.log(url);
+    url += 'min_price' +'='+input_min.value+'&'
+    url += 'max_price' +'='+input_max.value+'&'
+    fetch(url)
+    .then((response) => response.json())
+    .then((json) => {
+        var row_products = document.querySelectorAll(".row");
+        row_products[3].innerHTML = json.inner_HTML;
+        // console.log(row_products[3]);
+        // console.log(json)
+    });
 });
